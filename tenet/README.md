@@ -43,7 +43,7 @@ Once a trace is loaded, you can navigate through execution using:
 | **Step Into** | `Ctrl+Shift+S` | Move forward one instruction (follow function calls) |
 | **Step Over** | `Ctrl+Shift+N` | Move forward one instruction (skip over function calls) |
 | **Step Out** | `Ctrl+Shift+F` | Jump to return point (exit current function) |
-| **Previous Instruction** | `Ctrl+Shift+P` | Move backward one instruction |
+| **Previous Instruction** | `Ctrl+Shift+B` | Move backward one instruction |
 | **Continue** | `Ctrl+Shift+C` | Run forward to next enabled breakpoint |
 
 #### **Context Menu (Right-Click)**

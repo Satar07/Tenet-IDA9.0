@@ -43,7 +43,7 @@ Tenet 是一个 IDA Pro 插件，支持对二进制执行轨迹进行时间旅�
 | **单步进入** (Step Into) | `Ctrl+Shift+S` | 前进一条指令（进入函数调用） |
 | **单步跳过** (Step Over) | `Ctrl+Shift+N` | 前进一条指令（跳过函数调用） |
 | **单步退出** (Step Out) | `Ctrl+Shift+F` | 跳到返回点（退出当前函数） |
-| **上一条指令** (Previous Insn) | `Ctrl+Shift+P` | 后退一条指令 |
+| **上一条指令** (Previous Insn) | `Ctrl+Shift+B` | 后退一条指令 |
 | **继续** (Continue) | `Ctrl+Shift+C` | 前进到下一个启用的断点 |
 
 #### **右键菜单**
@@ -161,7 +161,7 @@ Tenet 目前支持：
 
 1. 设置需要的断点
 2. 按 `Ctrl+Shift+C` 跳到下一个断点
-3. 使用 `Ctrl+Shift+P/S/N` 进行微调
+3. 使用 `Ctrl+Shift+B/S/N` 进行微调
 
 ### 跟踪内存访问
 
@@ -228,7 +228,7 @@ Tenet 作为安全研究和教育目的提供。
 ```
 加载轨迹:  File → Load file → Tenet trace file...
 前进一步:  Ctrl+Shift+S 或 Ctrl+Shift+N
-后退一步:  Ctrl+Shift+P
+后退一步:  Ctrl+Shift+B
 跳到断点:  Ctrl+Shift+C
 查看地址:  右键点击地址 → Go to next execution
 ```
