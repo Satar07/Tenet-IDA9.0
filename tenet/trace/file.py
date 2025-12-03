@@ -180,6 +180,7 @@ class TraceInfo(ctypes.Structure):
         ('mem_idx_width',   ctypes.c_uint8),
         ('mem_addr_width',  ctypes.c_uint8),
         ('original_hash',   ctypes.c_uint32),
+        ('runtime_base',    ctypes.c_uint64),  # 运行时基地址，用于 ASLR 计算
     ]
 
 class SegmentInfo(ctypes.Structure):
@@ -440,6 +441,8 @@ class TraceFile(object):
         header.mem_idx_width = width_from_type(self.mem_idx_type)
         header.mem_addr_width = width_from_type(self.mem_addr_type)
         header.original_hash = self.original_hash
+        # 保存运行时基地址，用于下次加载时恢复 ASLR slide
+        header.runtime_base = self.runtime_base_from_comment if self.runtime_base_from_comment is not None else 0
         mask_data = (ctypes.c_uint32 * len(self.masks))(*self.masks)
 
         # save the global trace data / header to the zip
@@ -579,6 +582,12 @@ class TraceFile(object):
             # select the cpu / arch for this trace
             #print(f"Loading magic 0x{header.arch_magic:08X}")
             self._select_arch(header.arch_magic)
+            
+            # 恢复运行时基地址（如果存在）
+            if header.runtime_base != 0:
+                self.runtime_base_from_comment = header.runtime_base
+                self.parsed_comment_line = True
+                pmsg(f"Restored runtime base 0x{self.runtime_base_from_comment:X} from .tt file header.")
 
             # load the (sorted) ip address table from disk
             self.ip_addrs = array.array(type_from_width(self.arch.POINTER_SIZE))
@@ -647,8 +656,11 @@ class TraceFile(object):
         self.original_hash = hash_file(filepath)
 
         # Initialize runtime base and parsed flag (also done in __init__ for clarity)
-        self.runtime_base_from_comment = None
-        self.parsed_comment_line = False
+        # 如果之前已经从 .tt 文件恢复了运行时基地址，则保留它
+        if not hasattr(self, 'runtime_base_from_comment') or self.runtime_base_from_comment is None:
+            self.runtime_base_from_comment = None
+        if not hasattr(self, 'parsed_comment_line') or not self.parsed_comment_line:
+            self.parsed_comment_line = False
 
         # Try to parse the first line for base address
         try:
