@@ -441,7 +441,7 @@ class TenetIDA(TenetCore):
             self.ACTION_PREV_INSN,
             "Previous Instruction (Tenet)",
             IDACtxEntry(self._handle_prev_insn),
-            "Ctrl+Shift+P", # Shortcut
+            "Ctrl+Shift+B", # Shortcut
             "Navigate trace backward one instruction",
             -1 # Optional: Add an icon later if desired
         )
@@ -449,24 +449,7 @@ class TenetIDA(TenetCore):
         if not result:
              logger.error(f"Failed to register '{action_desc.name}' action with IDA. Result: {result}")
              return False
-        logger.info(f"Successfully registered '{action_desc.name}' action with shortcut 'Ctrl+Shift+P'.")
-        return True
-
-    def _install_prev_insn(self):
-        """Install the 'Previous Instruction' action."""
-        action_desc = ida_kernwin.action_desc_t(
-            self.ACTION_PREV_INSN,
-            "Previous Instruction (Tenet)",
-            IDACtxEntry(self._handle_prev_insn),
-            "Ctrl+Shift+P", # Shortcut
-            "Navigate trace backward one instruction",
-            -1 # Optional: Add an icon later if desired
-        )
-        result = ida_kernwin.register_action(action_desc)
-        if not result:
-             logger.error(f"Failed to register '{action_desc.name}' action with IDA. Result: {result}")
-             return False
-        logger.info(f"Successfully registered '{action_desc.name}' action with shortcut 'Ctrl+Shift+P'.")
+        logger.info(f"Successfully registered '{action_desc.name}' action with shortcut 'Ctrl+Shift+B'.")
         return True
 
     def _uninstall_step_over(self):
